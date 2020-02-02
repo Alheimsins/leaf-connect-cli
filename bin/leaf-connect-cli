@@ -1,0 +1,141 @@
+#!/usr/bin/env node
+
+(async () => {
+  const leafConnect = require('leaf-connect')
+  const commandLineArgs = require('command-line-args')
+  const commandLineUsage = require('command-line-usage')
+
+  const commandList = [
+    'status',
+    'cachedStatus',
+    'climateControlStatus',
+    'climateControlTurnOn',
+    'climateControlTurnOff',
+    'chargingStart',
+    'history'
+  ]
+
+  const mainDefinitions = [
+    {
+      name: 'command',
+      defaultOption: true
+    }
+  ]
+
+  const mainOptions = commandLineArgs(mainDefinitions, { stopAtFirstUnknown: true })
+  const argv = mainOptions._unknown || []
+
+  const optionDefinitions = [
+    {
+      name: 'help',
+      alias: 'h',
+      type: Boolean,
+      description: 'Display this usage guide.'
+    },
+    {
+      name: 'verbose',
+      alias: 'v',
+      type: Boolean,
+      description: 'Turn on verbose logging.'
+    },
+    {
+      name: 'username',
+      alias: 'u',
+      type: String,
+      description: 'Nissan You+ username'
+    },
+    {
+      name: 'password',
+      alias: 'p',
+      type: String,
+      description: 'Nissan You+ password'
+    },
+    {
+      name: 'regionCode',
+      alias: 'r',
+      description: '{bold REQUIRED} - see "region codes" section in docs',
+      type: String
+    },
+    {
+      name: 'locale',
+      alias: 'l',
+      description: 'locale to use. Default: en-US',
+      defaultValue: 'en-US'
+    }
+  ]
+
+  const options = commandLineArgs(optionDefinitions, { argv })
+
+  if (!mainOptions.command || !options.username || !options.password || !options.regionCode || options.help || !commandList.includes(mainOptions.command)) {
+    const usage = commandLineUsage([
+      {
+        header: 'leaf-connect-cli',
+        content: ' Node.js commandline client for the Nissan Leaf API'
+      },
+      {
+        header: 'Options',
+        optionList: optionDefinitions
+      },
+      {
+        header: 'Command List',
+        content: commandList
+      },
+      {
+        header: 'Synopsis',
+        content: [
+          '$ leaf-connect-cli {bold command} [{bold --verbose}] [{bold --locale} {underline locale}] {bold --regionCode} {underline regioncode} {bold --username} {underline username} {bold --password} {underline password}',
+          '$ leaf-connect-cli {bold --help}'
+        ]
+      },
+      {
+        header: 'Example',
+        content: 'leaf-connect-cli status -u username -p password -r NE'
+      },
+      {
+        header: 'Region codes',
+        content: {
+          options: {
+            columns: [
+              {
+                name: 'Region',
+                maxWidth: 40
+              },
+              {
+                name: 'Code',
+                maxWidth: 10
+              }
+            ]
+          },
+          data: [
+            {
+              region: 'Europe',
+              code: 'NCI'
+            },
+            {
+              region: 'Canada',
+              code: 'NCI'
+            },
+            {
+              region: 'USA',
+              code: 'NNA'
+            },
+            {
+              region: 'Australia',
+              code: 'NMA'
+            },
+            {
+              region: 'Japan',
+              code: 'NML'
+            }
+          ]
+        }
+      }
+    ])
+
+    console.log(usage)
+  } else {
+    const client = await leafConnect(options)
+    const data = await client[mainOptions.command]()
+    console.log(data)
+  }
+})()

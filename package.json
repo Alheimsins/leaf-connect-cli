@@ -1,0 +1,32 @@
+{
+  "name": "leaf-connect-cli",
+  "version": "1.0.0",
+  "description": "Node.js CLI for Nissan Leaf API",
+  "main": "bin/leaf-connect-cli",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": {
+    "leaf-connect-cli": "./bin/leaf-connect-cli"
+  },
+  "files": [
+    "src/*"
+  ],
+  "keywords": [
+    "nissan",
+    "leaf",
+    "carwings",
+    "nissanconnect"
+  ],
+  "author": {
+    "name": "Jonas Enge",
+    "email": "jonas.enge@t-fk.no",
+    "url": "https://github.com/maccyber"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "command-line-args": "5.1.1",
+    "command-line-usage": "6.1.0",
+    "leaf-connect": "1.0.0"
+  }
+}
