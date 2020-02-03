@@ -134,8 +134,12 @@
 
     console.log(usage)
   } else {
-    const client = await leafConnect(options)
-    const data = await client[mainOptions.command]()
-    console.log(data)
+    try {
+      const client = await leafConnect(options)
+      const data = await client[mainOptions.command]()
+      console.log(data)
+    } catch (error) {
+      console.error(error)
+    }
   }
 })()
