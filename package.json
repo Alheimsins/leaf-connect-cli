@@ -27,6 +27,6 @@
   "dependencies": {
     "command-line-args": "5.1.1",
     "command-line-usage": "6.1.0",
-    "leaf-connect": "1.0.0"
+    "leaf-connect": "1.0.1"
   }
 }
