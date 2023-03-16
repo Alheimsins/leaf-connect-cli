@@ -26,7 +26,7 @@
   "license": "MIT",
   "dependencies": {
     "command-line-args": "5.2.0",
-    "command-line-usage": "6.1.1",
+    "command-line-usage": "7.0.1",
     "leaf-connect": "1.0.3"
   }
 }
